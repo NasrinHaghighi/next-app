@@ -1,7 +1,46 @@
-import React from 'react'
+import React ,{useEffect, useState }from 'react'
 import Link from 'next/link'
 import SingleTodo from '@/components/Todos/SingleTodo'
+import useSWR from 'swr'
+import axios from 'axios'
+
+
+
+const fetcher=async ()=>{
+
+
+  const {data} =await axios.get('/api/todos')
+  return data
+
+
+  }
+
 function Home() {
+ const [data, setData] =useState(null)
+ const [loading, setLoading] =useState(true)
+
+useEffect(() => {
+ const {data} =  axios.get('/api/todos')
+ .then((res)=>{
+  setData(res.data)
+  setLoading(false)
+ }
+
+
+ 
+ )
+
+}, [])
+
+const deleteTodo=(id)=>{
+  console.log(id)
+}
+
+
+
+  if (loading) return <div>loading...</div>
+
+
   return (
     <>
     <div className='container mx-auto px-4 '>
@@ -9,20 +48,16 @@ function Home() {
     </h1>
     <div className='container p-2 xl:max-w-screen-xl mx-auto'>
 
-      <section className='flex items-center justify-center'>
+      <section className='flex flex-col items-center justify-center'>
 
-       <SingleTodo />
-
-
-
-</section>
-<section className='flex items-center justify-center'>
-
-<SingleTodo />
+      {data.todos.map((todo)=>{
+        return <SingleTodo todo={todo} deleteTodo={deleteTodo}/>
+      })}
 
 
 
 </section>
+<hr/>
     </div>
   
 
