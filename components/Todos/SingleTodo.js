@@ -5,7 +5,7 @@ import {CheckIcon} from '@heroicons/react/24/outline';
 import {TrashIcon} from '@heroicons/react/24/outline';
 
 function SingleTodo({todo, deleteTodo }) {
-  console.log(todo)
+  //console.log(todo.id)//ok
   return (
     <div  
     className="flex  justify-between border border-gray-300 mb-4 p-3 md:p-4 rounded-xl w-full ">

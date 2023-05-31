@@ -6,23 +6,16 @@ import axios from 'axios'
 
 
 
-const fetcher=async ()=>{
 
-
-  const {data} =await axios.get('/api/todos')
-  return data
-
-
-  }
 
 function Home() {
  const [data, setData] =useState(null)
  const [loading, setLoading] =useState(true)
 
 useEffect(() => {
- const {data} =  axios.get('/api/todos')
+ axios.get('/api/todos')
  .then((res)=>{
-  setData(res.data)
+  setData(res.data.todos)
   setLoading(false)
  }
 
@@ -33,7 +26,7 @@ useEffect(() => {
 }, [])
 
 const deleteTodo=(id)=>{
-  console.log(id)
+  axios.delete(`/api/todos/${id}`).then((res)=>setData(res.data.todos))
 }
 
 
@@ -50,7 +43,7 @@ const deleteTodo=(id)=>{
 
       <section className='flex flex-col items-center justify-center'>
 
-      {data.todos.map((todo)=>{
+      {data.map((todo)=>{
         return <SingleTodo todo={todo} deleteTodo={deleteTodo}/>
       })}
 
