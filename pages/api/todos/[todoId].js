@@ -1,14 +1,17 @@
-import {todos} from '../../../data/todos'
+///import {todos} from '../../../data/todos'
+import dbConnect from "@/server/utils/dbConect"
+import Todo from '../../../server/models/todos'
+import { query } from "express"
+dbConnect()
 
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
     //res.status(200).json({todo:req.query.todoId  })
- const {todoId} =req.query
-if(req.method === 'DELETE'){
-    const index = todos.findIndex(todo => todo.id === parseInt(todoId));
-    todos.splice(index, 1);
+ const {method, query} =req
+if(method === 'DELETE'){
+    const todoId =query.todoId
+  await Todo.findByIdAndDelete(todoId)
+   const todos=await Todo.find()
     
   return  res.status(200).json({todos})
 }
-   
-  }
+ }
