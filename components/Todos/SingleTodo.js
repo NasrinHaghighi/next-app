@@ -9,13 +9,16 @@ function SingleTodo({todo, deleteTodo }) {
   return (
     <div  
     className="flex  justify-between border border-gray-300 mb-4 p-3 md:p-4 rounded-xl w-full ">
-      <Link href={`/${todo._id}`}>
+      <Link href={`/todos/${todo._id}`}>
     <span>{todo.title}</span>
     </Link>
     <div className="flex gap-x-3 items-center">
-      <button className="" >
-      <CheckIcon  className="w-6 h-6 stroke-green-400" /> 
-      </button>
+    {todo.isCompleted ? (
+                  <CheckIcon className="w-6 h-6 stroke-green-400" />
+                ) : (
+                  <span className="w-5 h-5 block border-2 border-gray-500 rounded-full"></span>
+      )}
+  
        <button onClick={()=>deleteTodo(todo._id)}>
        <TrashIcon  className="w-6 h-6 stroke-red-400" /> 
       </button> 
