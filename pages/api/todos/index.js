@@ -15,6 +15,7 @@ export default async function handler(req, res) {
 }
     else if(req.method === 'GET'){
         const todos=await Todo.find({})
+   
        return res.status(200).json({todos  })
     }
   }

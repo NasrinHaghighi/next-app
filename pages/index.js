@@ -5,12 +5,12 @@ import useSWR from 'swr'
 import axios from 'axios'
 import AddNewTodo from '@/components/Todos/AddNewTodo'
 import Todo from '@/server/models/todos'
-
-
+import dbConnect from "@/server/utils/dbConect"
+import Layout from '@/components/Layout'
 
 function Home({todos}) {
  const [data, setData] =useState(todos)
-//const [loading, setLoading]=useState(true)
+// const [loading, setLoading]=useState(true)
 
 // useEffect(() => {
 //  axios.get('/api/todos')
@@ -33,11 +33,12 @@ const deleteTodo=(id)=>{
 const addTodo=(e,formData)=>{
   e.preventDefault()
  // console.log(formData)
-axios.post(`/api/todos/`, {formData}).then((res)=>setData(res.data.todos))
+axios.post(`/api/todos/`, {formData}).then((res)=>console.log(res.data.todos))
 }
 
   return (
     <>
+    <Layout>
     <div className='container mx-auto px-4 '>
     <h1  className=' flex justify-center text-2xl ring-offset-2 ring-4'>Todo list
     </h1>
@@ -48,7 +49,7 @@ axios.post(`/api/todos/`, {formData}).then((res)=>setData(res.data.todos))
  
         { data.map((todo)=>{
         return <SingleTodo todo={todo} deleteTodo={deleteTodo}/>
-      })}    
+      })}     
 
 
 
@@ -59,6 +60,7 @@ axios.post(`/api/todos/`, {formData}).then((res)=>setData(res.data.todos))
     <hr/>
     <Link href='/episodes'  className=' flex justify-center'> episodes List ?</Link>
    </div>
+   </Layout>
    </>
   )
 }
@@ -67,6 +69,7 @@ export default Home
 
 
 export async function getServerSideProps() {
+  dbConnect()
    const todos = await Todo.find({})
     return {
     props: {
